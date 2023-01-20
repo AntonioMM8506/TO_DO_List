@@ -4,6 +4,8 @@ import axios from 'axios';
 import Alert from '@mui/material/Alert';
 //import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 function AddTask(){
     const [title, setTitle] = useState('');
@@ -17,7 +19,7 @@ function AddTask(){
             status: "new",
             description: description
         }
-        console.log(newTask);
+        //console.log(newTask);
         axios.post('/api/task/add', newTask)
         .then(res => {
             setShowAlert(true);
@@ -28,9 +30,21 @@ function AddTask(){
     return(
         <div>
             <div>
-                <input value={title} onChange={(e) => {setTitle(e.target.value)}}></input>
-                <input value={description} onChange={(e) => {setDescription(e.target.value)}}></input>
-                <button onClick={addNewtask}>Add Task</button>
+                <Stack
+                    component="form"
+                    sx={{
+                        width: 500,
+                    }}
+                    spacing={2}
+                    noValidate
+                    autoComplete="off"
+                >
+                    <TextField fullWidth label="Title" id="title" value={title} onChange={(e) => {setTitle(e.target.value)}}/>
+                    <TextField fullWidth multiline={true} rows={5} label="Description" id="description" value={description} onChange={(e) => {setDescription(e.target.value)}}/>
+                    
+                </Stack>
+                <button sx={{width:200}} onClick={addNewtask}>Create New Task</button>
+                
             </div>
             
             {(showAlert) ? 

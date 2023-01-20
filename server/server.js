@@ -7,7 +7,6 @@ const mongoDBConnection = require('./connection');
 //Task Model
 const taskRoute = require('./task');
 
-
 //body parser
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());

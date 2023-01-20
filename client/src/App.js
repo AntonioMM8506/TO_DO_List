@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {BrowserRouter, Routes, Route } from 'react-router-dom';
-import testPage from './testPage';
 import AddTask from './addTask';
+import ListOfTasks from './listOfTasks';
+import EditTask from './editTask';
 
 function App(){
   const [backEndData, setBackEndData] = useState([{}]);
@@ -19,8 +20,9 @@ function App(){
 
       <BrowserRouter>
         <Routes>
-          <Route path='/test' element={<testPage/>} exact></Route>
           <Route path='/addTask' element={<AddTask/>} exact></Route>
+          <Route path='/list' element={<ListOfTasks/>} exact></Route>
+          <Route path='/editTask/:id' element={<EditTask/>} exact></Route>
         </Routes>
       </BrowserRouter>
 
