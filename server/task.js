@@ -4,15 +4,19 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const mySchema = mongoose.Schema;
 
+//With Mongoose, and Schema is necessary, in order to standarize the request, so no other
+//field will be send.
 const taskSchema = new mySchema({
     title: String,
     status: String,
     description: String
 }, {collection:'todo_list_collection'});
 
+//Creates the Collection, in case of existing, it will CRUD in that collection
 const taskModel = mongoose.model('todo_list_collection', taskSchema);
 module.exports = router;
 
+//CRUD Methods --------------------------------------------------------------------------------
 //Add new task
 router.post('/add', (req, res) => {
     const newTask = new taskModel({
@@ -41,7 +45,7 @@ router.get('/getTask', (req, res) => {
     })
 });
 
-//Get Data Task
+//Get data from a single Task
 router.post('/getDataTask', (req, res) => {
     taskModel.find({id: req.body._id}, function(docs, err){
         if(!err){
@@ -53,7 +57,6 @@ router.post('/getDataTask', (req, res) => {
 });
 
 //Update Task
-//Add new task
 router.post('/update', (req, res) => {
     taskModel.findOneAndUpdate({_id: req.body.id}, {
         title: req.body.title,

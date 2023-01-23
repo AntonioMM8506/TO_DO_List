@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import uniqid from 'uniqid';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
-//import Button from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
@@ -42,7 +42,7 @@ function AddTask(){
                     <TextField fullWidth multiline={true} rows={5} label="Description" id="description" value={description} onChange={(e) => {setDescription(e.target.value)}}/>
                     
                 </Stack>
-                <button sx={{width:200}} onClick={addNewtask}>Create New Task</button>
+                <Button sx={{width:200}} onClick={addNewtask}>Create New Task</Button>
                 
             </div>
             

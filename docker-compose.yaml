@@ -1,9 +1,13 @@
 version: "3.8"
-services: 
+services:
+  #Creates the Container for the DB
+  #Use a link like this to stablish the connection:
+  #mongodb://mongodb:27017/new-docker-db
   mongodb:
     image: "mongo"
     volumes:
       - data:/data/db
+  #Creates the Container for the Server/BackEnd, depends on mongodb container
   backend:
     build: ./server
     ports:
@@ -14,6 +18,11 @@ services:
       - /app/node_modules
     depends_on:
       - mongodb
+  #Creates the Container for the Client/FrontEnd, depends on the backend container
+  #As the Client uses the Server as a proxy, in the package.json, it is necessary to
+  #change the configuration for the name of the Container, this is due that all the
+  #containers are mounted on the same network.
+  #http://localhost:5000 => http://backend:5000
   frontend:
     build: ./client
     ports:
