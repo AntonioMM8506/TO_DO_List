@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
 import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
 function EditTask(){
@@ -11,7 +10,7 @@ function EditTask(){
     const [title, setTitle] = useState('');
     const [status, setStatus] = useState('');
     const [description, setDescription] = useState('');
-    const [showAlert, setShowAlert] = useState(false);
+    //const [showAlert, setShowAlert] = useState(false);
 
     useEffect(()=>{
         axios.post('/api/task/getDataTask', {id: params.id})
@@ -42,7 +41,7 @@ function EditTask(){
         //console.log(newTask);
         axios.post('/api/task/update', currentTask)
         .then(res => {
-            setShowAlert(true);
+            //setShowAlert(true);
         })
         .then(err => { console.log(err)});
     }

@@ -12,8 +12,9 @@ function App(){
     ).then(
       data =>{
         setBackEndData(data);
+        console.log(backEndData);
       }
-    )}, [])
+    )},[])
 
   return(
     <div>
