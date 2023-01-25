@@ -1,15 +1,33 @@
 const express = require('express');
 const router = express.Router();
-
 const mongoose = require('mongoose');
+
 const mySchema = mongoose.Schema;
 
 //With Mongoose, and Schema is necessary, in order to standarize the request, so no other
 //field will be send.
 const taskSchema = new mySchema({
-    title: String,
+    title: {
+        type: String,
+        validate:{
+            validator: function(v){
+                return /.{10,120}$/.test(v);
+            },
+            message: "The title must be 10-120 characters long"
+        }, 
+        required: [true, "Title Task is required"],
+    },
     status: String,
-    description: String
+    description: {
+        type: String, 
+        validate:{
+            validator: function(v){
+                return  /[^\<\>]{100,1000}$/.test(v);
+            },
+            message: "The description must be 100-1000 characters long. Avoid using <> tags"
+        }, 
+        required: [true, "A Description is required"]
+    },
 }, {collection:'todo_list_collection'});
 
 //Creates the Collection, in case of existing, it will CRUD in that collection
@@ -62,7 +80,7 @@ router.post('/update', (req, res) => {
         title: req.body.title,
         status: req.body.status,
         description: req.body.description
-    }, (err) => { 
+    }, {runValidators:true} , (err) => { 
         if(!err){
             res.send('Task updated')
         }else{
