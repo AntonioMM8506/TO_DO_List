@@ -54,10 +54,15 @@ function IndividualTask({id}){
         <Divider variant="middle" />
         <Box sx={{ m: 2 }}>
 
+        {
+          (id.status === "Done") ? null : 
           <Stack direction="row" spacing={1}>
-            <Link to={`/editTask/${id._id}`}><Button>Edit</Button></Link>
-            <Button onClick={()=>{deleteTask(id._id)}} >Delete</Button>
-          </Stack>
+          <Link to={`/editTask/${id._id}`}><Button>Edit</Button></Link>
+          <Button onClick={()=>{deleteTask(id._id)}} >Delete</Button>
+        </Stack>
+        }
+
+
         </Box>
       </Box>
     </div>

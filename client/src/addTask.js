@@ -15,7 +15,7 @@ function AddTask(){
         var newTask = {
             id: uniqid(),
             title: title,
-            status: "new",
+            status: "Pending",
             description: description
         }
         //console.log(newTask);

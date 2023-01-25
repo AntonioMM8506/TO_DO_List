@@ -42,7 +42,7 @@ router.get('/getTask', (req, res) => {
         }else{
             res.send(err);
         }
-    })
+    });
 });
 
 //Get data from a single Task
