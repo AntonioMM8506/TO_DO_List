@@ -2,21 +2,27 @@ import {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import IndividualTask from './individualTask';
 import Button from '@mui/material/Button';
+import { Stack } from '@mui/system';
+import { Pagination } from '@mui/material';
 
 function ListOfTasks(){
-    const [dataTask, setDataTask] = useState([]);
+    //const [dataTask, setDataTask] = useState([]);
     const [penTsk, setPenTsk] = useState([]);
     const [inProTsk, setInProTsk] = useState([]);
     const [doneTsk, setDoneTesk] = useState([]);
     const [countInProgress, setCountInProgress] = useState(0);
     const [countPending, setCountPending] = useState(0);
     const [countDone, setCountDone] = useState(0);
+    const [showPending, setShowPending] = useState(true);
+    const [showInProgress, setShowInProgress] = useState(false);
+    const [showDone, setShowDone] = useState(false);
+
 
     useEffect(()=>{
         axios.get('api/task/getTask')
         .then( res => {
             console.log(res.data);
-            setDataTask(res.data);
+            //setDataTask(res.data);
 
             let auxPen =[];
             let auxInP = [];
@@ -32,10 +38,6 @@ function ListOfTasks(){
                 }
             }
 
-            //console.log(auxPen);
-            //console.log(auxInP);
-            //console.log(auxDone);
-
             setPenTsk(auxPen);
             setCountPending(auxPen.length);
             setInProTsk(auxInP);
@@ -46,9 +48,11 @@ function ListOfTasks(){
         }).catch( err => {
             console.log(err);
         })
-    }, []);
+    }, []);//End of useEffect
 
-    //Map list into object
+    
+    /*
+    //Show all elements in the collection
     const taskList = dataTask.map(id => {
         return(
             <div>
@@ -56,40 +60,76 @@ function ListOfTasks(){
             </div>
         )
     })
+    */
 
-    const pendingTasks = penTsk.map((id, index) => {
-        return(
-            <div>
-                <IndividualTask id={id}></IndividualTask>
-            </div>
-            
-        )
-    });
-    
-    const inProgressTasks = inProTsk.map(id => {
-        return(
-            <div>
-                <IndividualTask id={id}></IndividualTask>
-            </div>
-        )
-    })
 
-    const doneTasks = doneTsk.map(id => {
+    const [page, setPage] = useState(1);
+    const handlePageChange = (event, value) => { setPage(value); };
+    //penTsk, countPending
+    //inProTsk, countInProgress
+    //doneTsk, countDone
+    /**
+     * @param {array} tsk - array of objects with the data response 
+     * @param {int} counter - number of elements in the given array
+     * @returns 
+     */
+    const displayedTasks = (tsk, counter) => {
+        let pages = Math.ceil(counter/15);
+        let tempArr = [];
+
+        try{
+            tempArr = tsk.slice((page-1)*15, (page*15)-1)
+        }catch{
+            tempArr = tsk.slice((page-1)*15, tsk.length);
+        }
+        
         return(
             <div>
-                <IndividualTask id={id}></IndividualTask>
+                <Stack spacing={2}>
+                    <Pagination count={pages} page={page} onChange={handlePageChange}/>
+                </Stack> 
+                {
+                    tempArr.map(id => {
+                        return(
+                        <div>
+                            <IndividualTask id={id}></IndividualTask>
+                        </div>
+                        );
+                    })
+                }
+                <Stack spacing={2}>
+                    <Pagination count={pages} page={page} onChange={handlePageChange}/>
+                </Stack> 
             </div>
-        )
-    })
+        );
+    } //End of pendingTasks
+
 
     return(
         <div>
-            <Button>Pending</Button>
-            <Button>In Progress</Button>
-            <Button>Done</Button>
-            {taskList}
+            <Button onClick={() => {
+                setShowPending(true);
+                setShowInProgress(false);
+                setShowDone(false);
+            }}>Pending</Button>
+            <Button onClick={()=> {
+                setShowPending(false);
+                setShowInProgress(true);
+                setShowDone(false);
+            }}>In Progress</Button>
+            <Button onClick={() => {
+                setShowPending(false);
+                setShowInProgress(false);
+                setShowDone(true);
+            }}>Done</Button>
+
+            {showPending ? displayedTasks(penTsk, countPending) : null}
+            {showInProgress ? displayedTasks(inProTsk, countInProgress) : null}
+            {showDone ? displayedTasks(doneTsk, countDone) : null}
+            <br></br>
         </div>
     )
-}
+
+}//End of ListOfTasks
 
 export default ListOfTasks;

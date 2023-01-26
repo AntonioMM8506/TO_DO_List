@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import Button from '@mui/material/Button';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 function EditTask(){
@@ -101,7 +102,7 @@ function EditTask(){
                     <TextField fullWidth error={descriptionErr} multiline={true} rows={5} label="Description" id="description" helperText={descriptionHelper} value={description} onChange={(e) => {setDescription(e.target.value)}}/>
 
                 </Stack>
-                <button sx={{width:200}} onClick={editCurrentTask}>Edit Task</button>
+                <Button sx={{width:200}} onClick={editCurrentTask}>Save</Button>
         </div>
     )
 

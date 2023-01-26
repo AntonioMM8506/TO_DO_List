@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route } from 'react-router-dom';
 import AddTask from './addTask';
 import ListOfTasks from './listOfTasks';
 import EditTask from './editTask';
+import Footer from './footer';
 
 function App(){
   const [backEndData, setBackEndData] = useState([{}]);
@@ -17,7 +18,7 @@ function App(){
     )},[])
 
   return(
-    <div>
+    <div className='App'>
 
       <BrowserRouter>
         <Routes>
@@ -26,6 +27,8 @@ function App(){
           <Route path='/editTask/:id' element={<EditTask/>} exact></Route>
         </Routes>
       </BrowserRouter>
+
+      <Footer></Footer>
 
     </div>
   );

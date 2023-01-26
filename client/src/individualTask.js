@@ -33,7 +33,7 @@ function IndividualTask({id}){
   return(
     <diV>
     <div data-aos="flip-right">
-      <Box sx={{ width: '100%', maxWidth: 460, bgcolor: 'grey' }}>
+      <Box sx={{ width: '100%', maxWidth: 560, bgcolor: 'grey', height: '100%', maxHeight:400 }}>
         <Box sx={{ my: 3, mx: 2 }}>
           <Grid container alignItems="center">
             <Grid item xs>
@@ -47,7 +47,7 @@ function IndividualTask({id}){
               </Typography>
             </Grid>
           </Grid>
-          <Typography sx={{maxWidth:300}} color="text.secondary" variant="body2" noWrap>
+          <Typography sx={{maxWidth:400}} color="text.secondary" variant="body2" noWrap>
             {id.description}
           </Typography>
         </Box>
