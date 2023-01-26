@@ -1,5 +1,5 @@
 .App {
-    background-color: #0b1342;
+    background-color: #ffffff;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -7,4 +7,29 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+}
+
+.App h1,h2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color:blue;
+
+}
+
+.pendingTitle{
+    color: #e67171;
+}
+
+.inProgressTitle{
+    color: purple;
+}
+
+.doneTitle{
+    color: green;
+}
+
+.noData{
+    color:black;
 }

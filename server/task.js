@@ -34,6 +34,7 @@ const taskSchema = new mySchema({
 const taskModel = mongoose.model('todo_list_collection', taskSchema);
 module.exports = router;
 
+
 //CRUD Methods --------------------------------------------------------------------------------
 //Add new task
 router.post('/add', (req, res) => {
@@ -52,6 +53,7 @@ router.post('/add', (req, res) => {
     })
 });
 
+
 //Get All tasks 
 router.get('/getTask', (req, res) => {
     taskModel.find({}, function(docs, err){
@@ -63,6 +65,7 @@ router.get('/getTask', (req, res) => {
     });
 });
 
+
 //Get data from a single Task
 router.post('/getDataTask', (req, res) => {
     taskModel.find({id: req.body._id}, function(docs, err){
@@ -73,6 +76,7 @@ router.post('/getDataTask', (req, res) => {
         }
     })
 });
+
 
 //Update Task
 router.post('/update', (req, res) => {
@@ -88,6 +92,7 @@ router.post('/update', (req, res) => {
         }
     })
 });
+
 
 //Delete Task
 router.post('/delete', (req, res) => {

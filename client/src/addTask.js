@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function AddTask(){
     const [title, setTitle] = useState('');
@@ -15,6 +16,7 @@ function AddTask(){
     const [titleErr, setTitleErr] = useState(false);
     const [descriptionHelper, setDescriptionHelper] = useState('Type a short and clear Description');
     const [descriptionErr, setDescriptionErr] = useState(false);
+
 
     function addNewtask(){
         var newTask = {
@@ -50,8 +52,16 @@ function AddTask(){
         .catch(err => { console.log(err)});
     }//End of addNewTask
 
+
+    const navigate = useNavigate()
+    function cancel(){
+        navigate("/");
+    }
+
+
     return(
         <div>
+            <h2>Create a new Task</h2>
             <div>
                 <Stack
                     component="form"
@@ -60,13 +70,41 @@ function AddTask(){
                     }}
                     spacing={2}
                     noValidate
-                    autoComplete="off"
-                >
-                    <TextField fullWidth error={titleErr} label="Title" id="title" helperText={titleHelper} value={title} onChange={(e) => {setTitle(e.target.value)}}/>
-                    <TextField fullWidth error={descriptionErr} multiline={true} rows={5} label="Description" id="description" helperText={descriptionHelper} value={description} onChange={(e) => {setDescription(e.target.value)}}/>
-                    
+                    autoComplete="off">
+                        <TextField 
+                            fullWidth 
+                            error={titleErr} 
+                            label="Title" 
+                            helperText={titleHelper} 
+                            value={title} 
+                            onChange={(e) => {setTitle(e.target.value)}}/>
+                        <TextField 
+                            fullWidth 
+                            error={descriptionErr} 
+                            multiline={true} 
+                            rows={5} 
+                            label="Description" 
+                            helperText={descriptionHelper} 
+                            value={description} 
+                            onChange={(e) => {setDescription(e.target.value)}}/>
                 </Stack>
-                <button sx={{width:200}} onClick={addNewtask}>Create New Task</button>
+                <br></br>
+                <Stack direction="row" alignItems="center" spacing={2}>
+                    <Button 
+                        variant="contained" 
+                        color="success" 
+                        sx={{width:200}} 
+                        onClick={addNewtask}>
+                        Create Task
+                    </Button>
+                    <Button 
+                        variant="contained" 
+                        color="error" 
+                        sx={{width:200}} 
+                        onClick={cancel}> 
+                        Cancel
+                    </Button>
+                </Stack>
                 
             </div>
             

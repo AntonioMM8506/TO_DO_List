@@ -7,7 +7,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
+import { Link, Navigate,  useNavigate } from 'react-router-dom';
+import './App.css';
 
 function EditTask(){
 
@@ -25,6 +27,11 @@ function EditTask(){
         setStatus(event.target.value);
     };
 
+    const navigate = useNavigate()
+    function cancel(){
+        navigate("/");
+    }
+
     useEffect(()=>{
         axios.post('/api/task/getDataTask', {id: params.id})
         .then( res =>{
@@ -41,7 +48,7 @@ function EditTask(){
             setStatus(retrievedDataTask.status);
             setDescription(retrievedDataTask.description);
         })
-    },[]);
+    },[]);//End of useEffect
 
     function editCurrentTask(){
         //console.log(params.id)
@@ -69,14 +76,16 @@ function EditTask(){
                 }else{
                     setDescriptionHelper('Type a short and clear Description');
                     setDescriptionErr(false);
-                }
-
+                } 
             }else{
                 setShowAlert(true);
+                cancel();
             }
         })
         .catch(err => { console.log(err)});
-    }
+
+    }//End of editCurrentTask
+
 
     return(
         <div>
@@ -90,7 +99,13 @@ function EditTask(){
                     noValidate
                     autoComplete="off"
                 >
-                    <TextField fullWidth error={titleErr} label="Title" id="title" helperText={titleHelper} value={title} onChange={(e) => {setTitle(e.target.value)}}/>
+                    <TextField fullWidth 
+                        error={titleErr} 
+                        label="Title" 
+                        id="title" 
+                        helperText={titleHelper}
+                        value={title} 
+                        onChange={(e) => {setTitle(e.target.value)}}/>
                     <FormControl fullWidth>
                         <InputLabel>Status</InputLabel>
                         <Select value={status} label="Status" onChange={handleChange}>
@@ -98,14 +113,37 @@ function EditTask(){
                             <MenuItem value="In Progress">In Progress</MenuItem>
                             <MenuItem value="Done">Done</MenuItem></Select>
                     </FormControl>
-                    
-                    <TextField fullWidth error={descriptionErr} multiline={true} rows={5} label="Description" id="description" helperText={descriptionHelper} value={description} onChange={(e) => {setDescription(e.target.value)}}/>
+                    <TextField fullWidth 
+                        error={descriptionErr} 
+                        multiline={true} 
+                        rows={5} 
+                        label="Description" 
+                        id="description" 
+                        helperText={descriptionHelper} 
+                        value={description} 
+                        onChange={(e) => {setDescription(e.target.value)}}/>
 
                 </Stack>
-                <Button sx={{width:200}} onClick={editCurrentTask}>Save</Button>
+                <br></br>
+                <Stack direction="row" spacing={2}>
+                    <Button 
+                        variant="contained" 
+                        color="success" 
+                        sx={{width:200}} 
+                        onClick={editCurrentTask}>
+                        Save
+                    </Button>
+                    <Button 
+                        variant="contained" 
+                        color="error" 
+                        sx={{width:200}} 
+                        onClick={ cancel}> 
+                        Cancel
+                    </Button>
+                </Stack>
         </div>
-    )
+    )//End of render
 
-}
+}//End of EditTask
 
 export default EditTask;

@@ -4,6 +4,8 @@ import IndividualTask from './individualTask';
 import Button from '@mui/material/Button';
 import { Stack } from '@mui/system';
 import { Pagination } from '@mui/material';
+import { Navigate, useNavigate } from 'react-router-dom';
+import './App.css';
 
 function ListOfTasks(){
     //const [dataTask, setDataTask] = useState([]);
@@ -62,6 +64,11 @@ function ListOfTasks(){
     })
     */
 
+    const navigate = useNavigate()
+    function addNew(){
+        navigate("/addTask");
+    }
+
 
     const [page, setPage] = useState(1);
     const handlePageChange = (event, value) => { setPage(value); };
@@ -85,20 +92,20 @@ function ListOfTasks(){
         
         return(
             <div>
-                <Stack spacing={2}>
-                    <Pagination count={pages} page={page} onChange={handlePageChange}/>
+                <Stack spacing={2} alignItems="center">
+                    <Pagination count={pages} page={page} color="primary" onChange={handlePageChange}/>
                 </Stack> 
                 {
                     tempArr.map(id => {
                         return(
-                        <div>
-                            <IndividualTask id={id}></IndividualTask>
-                        </div>
+                            <div>
+                                <IndividualTask id={id}></IndividualTask>
+                            </div>
                         );
                     })
                 }
-                <Stack spacing={2}>
-                    <Pagination count={pages} page={page} onChange={handlePageChange}/>
+                <Stack spacing={2} alignItems="center">
+                <Pagination count={pages} page={page} color="primary" onChange={handlePageChange}/>
                 </Stack> 
             </div>
         );
@@ -107,25 +114,47 @@ function ListOfTasks(){
 
     return(
         <div>
-            <Button onClick={() => {
-                setShowPending(true);
-                setShowInProgress(false);
-                setShowDone(false);
-            }}>Pending</Button>
-            <Button onClick={()=> {
-                setShowPending(false);
-                setShowInProgress(true);
-                setShowDone(false);
-            }}>In Progress</Button>
-            <Button onClick={() => {
-                setShowPending(false);
-                setShowInProgress(false);
-                setShowDone(true);
-            }}>Done</Button>
+            <h1>TO DO LIST</h1>
+            
+            <Stack spacing={3} alignItems="center">
+                <Button 
+                    sx={{width:300}}
+                    variant="contained" 
+                    spacing={2}
+                    size="large" 
+                    onClick={addNew}>
+                    Add New Task
+                </Button>
+                
+                <Stack direction="row" spacing={2} alignItems="center">
+                    <Button sx={{width:200}}  variant="outlined" color="error" onClick={() => {
+                        setShowPending(true);
+                        setShowInProgress(false);
+                        setShowDone(false);
+                    }}>Pending</Button>
+                    <Button sx={{width:200}}  variant="outlined" color="secondary" onClick={()=> {
+                        setShowPending(false);
+                        setShowInProgress(true);
+                        setShowDone(false);
+                    }}>In Progress</Button>
+                    <Button sx={{width:200}} variant="outlined" color="success" onClick={() => {
+                        setShowPending(false);
+                        setShowInProgress(false);
+                        setShowDone(true);
+                    }}>Done</Button>
+                </Stack>
+            </Stack>
+            
+            {showPending ? <h2 className='pendingTitle'>Pending Tasks</h2>: null}
+            {showInProgress ? <h2 className='inProgressTitle'>Tasks in Progress</h2>: null}
+            {showDone ? <h2 className='doneTitle'>Tasks completed</h2>: null}
 
-            {showPending ? displayedTasks(penTsk, countPending) : null}
-            {showInProgress ? displayedTasks(inProTsk, countInProgress) : null}
-            {showDone ? displayedTasks(doneTsk, countDone) : null}
+            <Stack alignItems="center">
+                {showPending ?  countPending ? displayedTasks(penTsk, countPending): <p className='noData'>No Tasks in this Status</p> : null}
+                {showInProgress ? countInProgress ?  displayedTasks(inProTsk, countInProgress): <p className='noData'>No Tasks in this Status</p> : null}
+                {showDone ? countDone ? displayedTasks(doneTsk, countDone): <p className='noData'>No Tasks in this Status</p> : null}
+            </Stack>
+            
             <br></br>
         </div>
     )
