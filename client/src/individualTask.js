@@ -82,7 +82,7 @@ function IndividualTask({id}){
   return(
     <div>
       <div data-aos="flip-right">
-        <Box sx={{ width: '100%', bgcolor: statusColor, maxHeight:400 }}>
+        <Box sx={{ width: '100%', bgcolor: statusColor, maxWidth:600 }}>
           <Box sx={{ my: 3, mx: 2 }}>
             <Grid container alignItems="center">
               <Grid item xs>
@@ -90,21 +90,28 @@ function IndividualTask({id}){
                   {id.title}
                 </Typography>
               </Grid>
-              <Grid item>
                 <Typography gutterBottom variant="h7" component="div">
                   {id.status}
                 </Typography>
-              </Grid>
             </Grid>
-            <Typography sx={{maxWidth:400, maxHeight:300}} variant="body2" noWrap>
-              {id.description}
+            <Typography sx={{fontSize:12, maxWidth:500}} component="p">
+              {(id.description.length > 120) ?  id.description.slice(0,120)+"..." : id.description}
             </Typography>
           </Box>
           <Divider variant="middle" />
           <Box sx={{ m: 2 }}>
 
           {
-            (id.status === "Done") ? null : 
+            (id.status === "Done") ?             
+            <Stack direction="row" spacing={1}>
+              <Button                 
+                variant="contained" 
+                color="secondary" 
+                onClick={()=>{handleModalOpen(true)}} >
+                Show Info
+              </Button>
+            </Stack> 
+            : 
             <Stack direction="row" spacing={1}>
               <Button                 
                 variant="contained" 

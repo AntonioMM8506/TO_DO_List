@@ -101,7 +101,14 @@ function ListOfTasks(){
         return(
             <div>
                 <Stack spacing={2} alignItems="center">
-                    <Pagination count={pages} page={page} color="primary" onChange={handlePageChange}/>
+                    <Pagination 
+                        count={pages} 
+                        page={page} 
+                        siblingCount={0} 
+                        color="primary" 
+                        showFirstButton 
+                        showLastButton 
+                        onChange={handlePageChange}/>
                 </Stack> 
                 {
                     tempArr.map(id => {
@@ -112,8 +119,15 @@ function ListOfTasks(){
                         );
                     })
                 }
-                <Stack spacing={2} alignItems="center">
-                <Pagination count={pages} page={page} color="primary" onChange={handlePageChange}/>
+                <Stack spacing={2}  alignItems="center">
+                <Pagination 
+                    count={pages} 
+                    page={page} 
+                    siblingCount={0} 
+                    color="primary" 
+                    showFirstButton 
+                    showLastButton 
+                    onChange={handlePageChange}/>
                 </Stack> 
             </div>
         );
@@ -133,7 +147,8 @@ function ListOfTasks(){
                     onClick={addNew}>
                     Add New Task
                 </Button>
-                
+
+
                 <Stack direction="row" spacing={2} alignItems="center">
                     <Button sx={{width:200}}  variant="outlined" color="error" onClick={() => {
                         setShowPending(true);

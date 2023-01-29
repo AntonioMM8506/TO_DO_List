@@ -139,7 +139,7 @@ function AddTask(){
                 </DialogContent>
                 <DialogActions>
                     <Button color="success" onClick={addNewtask}>
-                        ADD
+                        SAVE
                     </Button>
                     <Button color="error" onClick={handleClose}>
                         Cancel

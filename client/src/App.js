@@ -3,7 +3,6 @@ import {BrowserRouter, Routes, Route } from 'react-router-dom';
 import AddTask from './addTask';
 import ListOfTasks from './listOfTasks';
 import EditTask from './editTask';
-import Footer from './footer';
 import { Navigate } from 'react-router-dom';
 
 function App(){
@@ -16,11 +15,12 @@ function App(){
         setBackEndData(data);
         console.log(backEndData);
       }
-    )},[])
+    )},
+    // eslint-disable-next-line 
+    []);
 
   return(
     <div className='App'>
-
       <BrowserRouter>
         <Routes>
           <Route path='/addTask' element={<AddTask/>} exact></Route>
@@ -29,10 +29,9 @@ function App(){
           <Route path='/' element={<Navigate to="/list"/>}></Route>
         </Routes>
       </BrowserRouter>
-
-
     </div>
   );
+  
 }//End of App
 
 export default App;
