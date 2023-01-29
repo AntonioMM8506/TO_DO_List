@@ -8,25 +8,41 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
-import { Link, Navigate,  useNavigate } from 'react-router-dom';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import { useNavigate } from 'react-router-dom';
 import './App.css';
 
 function EditTask(){
 
+    //Hooks
     const params = useParams();
     const [title, setTitle] = useState('');
     const [status, setStatus] = useState('');
     const [description, setDescription] = useState('');
-    const [showAlert, setShowAlert] = useState(false);
     const [titleHelper, setTitleHelper] = useState('Give yout Task a Name');
     const [titleErr, setTitleErr] = useState(false);
     const [descriptionHelper, setDescriptionHelper] = useState('Type a short and clear Description');
     const [descriptionErr, setDescriptionErr] = useState(false);
+    const [open, setOpen] = React.useState(false);
+
+    //General methods to handle Dialog box
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const handleChange = (event) => {
         setStatus(event.target.value);
     };
 
+    //Navigates to the HomePage
     const navigate = useNavigate()
     function cancel(){
         navigate("/");
@@ -47,8 +63,10 @@ function EditTask(){
             setTitle(retrievedDataTask.title);
             setStatus(retrievedDataTask.status);
             setDescription(retrievedDataTask.description);
-        })
-    },[]);//End of useEffect
+        });
+    },
+    // eslint-disable-next-line 
+    []);//End of useEffect
 
     function editCurrentTask(){
         //console.log(params.id)
@@ -60,7 +78,8 @@ function EditTask(){
         }
         axios.post('/api/task/update', currentTask)
         .then(res => {
-            console.log(res);
+            setOpen(false);
+            //console.log(res);
             if(res.data.errors){
                 if(res.data.errors.title){
                     setTitleHelper(res.data.errors.title.message);
@@ -78,7 +97,6 @@ function EditTask(){
                     setDescriptionErr(false);
                 } 
             }else{
-                setShowAlert(true);
                 cancel();
             }
         })
@@ -130,7 +148,7 @@ function EditTask(){
                         variant="contained" 
                         color="success" 
                         sx={{width:200}} 
-                        onClick={editCurrentTask}>
+                        onClick={()=>{handleClickOpen(true)}}>
                         Save
                     </Button>
                     <Button 
@@ -141,6 +159,29 @@ function EditTask(){
                         Cancel
                     </Button>
                 </Stack>
+
+            <Dialog 
+                open={open} 
+                keepMounted 
+                onClose={handleClose}>
+                
+                <DialogTitle>Save the current Changes?</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        If the Task Status is changed to "Done", this task cannot be 
+                        edited or deleted later.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="success" onClick={() => {editCurrentTask()}}>
+                        SAVE
+                    </Button>
+                    <Button color="error" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                </DialogActions>
+
+            </Dialog>
         </div>
     )//End of render
 

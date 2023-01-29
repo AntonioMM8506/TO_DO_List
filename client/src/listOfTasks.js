@@ -1,10 +1,10 @@
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect} from 'react';
 import axios from 'axios';
 import IndividualTask from './individualTask';
 import Button from '@mui/material/Button';
 import { Stack } from '@mui/system';
 import { Pagination } from '@mui/material';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './App.css';
 
 function ListOfTasks(){
@@ -30,6 +30,8 @@ function ListOfTasks(){
             let auxInP = [];
             let auxDone = [];
 
+            //Get all the elements and save them in auxiliar arrays according
+            //to their status
             for(let i=0; i<res.data.length; i++){
                 if(res.data[i].status==="Pending"){
                     auxPen.push(res.data[i]);
@@ -40,6 +42,7 @@ function ListOfTasks(){
                 }
             }
 
+            //Save the generated arrays and their length for each one.
             setPenTsk(auxPen);
             setCountPending(auxPen.length);
             setInProTsk(auxInP);
@@ -64,6 +67,7 @@ function ListOfTasks(){
     })
     */
 
+    //Navigate to addTask page
     const navigate = useNavigate()
     function addNew(){
         navigate("/addTask");
@@ -81,11 +85,15 @@ function ListOfTasks(){
      * @returns 
      */
     const displayedTasks = (tsk, counter) => {
+        //Receives the array to handle and its current length. Then with a temporary
+        //will display the first 15 elements for each page, if there are less than 15 
+        //elements per array, then it will only display all the found ones.
+        //The pagination will be created according to the multiples, rounded up, of 15
         let pages = Math.ceil(counter/15);
         let tempArr = [];
 
         try{
-            tempArr = tsk.slice((page-1)*15, (page*15)-1)
+            tempArr = tsk.slice((page-1)*15, (page*15));
         }catch{
             tempArr = tsk.slice((page-1)*15, tsk.length);
         }

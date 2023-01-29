@@ -1,19 +1,48 @@
+//React Hooks
 import  { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+//Axios for making petitions to the backend
+import axios from 'axios';
+//MUI library components
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import { Link, useNavigate } from 'react-router-dom';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+//AOS Library for animation effects
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 
 
 function IndividualTask({id}){
+    //General methods to handle Dialog box
+    const [open, setOpen] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
 
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+
+    const handleClose = () => {
+      setOpen(false);
+    };
+
+    const handleModalOpen = () =>{
+      setOpenModal(true);
+    }
+    
+    const handleModalClose = () =>{
+      setOpenModal(false);
+    }
+
+  //Delete the selected task and then redirects to the Home Page
   const ref = useNavigate();
   function deleteTask(id){
     axios.post('/api/task/delete', {id: id}).then( res => {
@@ -24,14 +53,20 @@ function IndividualTask({id}){
   }//End of deleteTask
 
 
+  //Render the elements using the AOS library effects
   useEffect(()=>{
     AOS.init();
   },[]);
 
+
+  //Redirects to the EditTask Page, however, each page its created with the data of the
+  //selected page, that's why the _id is required.
   function editNavigate(){
     ref(`/editTask/${id._id}`);
   }
 
+
+  //Render the task box according to its Status
   let statusColor = 'black'
   if(id.status === "Pending"){
     statusColor="#e67171";
@@ -71,18 +106,82 @@ function IndividualTask({id}){
           {
             (id.status === "Done") ? null : 
             <Stack direction="row" spacing={1}>
-              <Button variant="contained" color="success" onClick={editNavigate} >Edit</Button>
-              <Button variant="contained" color="error" onClick={()=>{deleteTask(id._id)}} >Delete</Button>
+              <Button                 
+                variant="contained" 
+                color="secondary" 
+                onClick={()=>{handleModalOpen(true)}} >
+                Show Info
+              </Button>
+
+              <Button 
+                variant="contained" 
+                color="success" 
+                onClick={editNavigate} >
+                Edit
+              </Button>
+
+              <Button 
+                variant="contained" 
+                color="error" 
+                onClick={()=>{handleClickOpen(true)}} >
+                Delete
+              </Button>
+
             </Stack>
           }
           <br/>
           </Box>
         </Box>
       </div>
+        
+        {/*Dialog for the DELETE confirmation*/}
+        <Dialog 
+          open={open} 
+          keepMounted 
+          onClose={handleClose}>
+          <DialogTitle>Are you sure you want to DELETE this task?</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              This action cannot be undone
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button color="success" onClick={() => {deleteTask(id._id)}}>
+              DELETE
+            </Button>
+            <Button color="error" onClick={handleClose}>
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/*Dialog for displaying the information of the selected task*/}
+        <Dialog 
+          open={openModal} 
+          keepMounted 
+          onClose={handleModalClose}>
+          <DialogTitle>{id.title}</DialogTitle>
+          <DialogContent>
+            <DialogContentText fontWeight="bold">
+              Status: {id.status}
+            </DialogContentText>
+            <br></br>
+            <DialogContentText id="alert-dialog-slide-description">
+              {id.description}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button color="error" onClick={handleModalClose}>
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+
     </div>
 
-  )//End of render
+  );
 
 }//End of class
+
 
 export default IndividualTask;
