@@ -41,13 +41,13 @@ Wait until the containers are mounted and running. Then navigate to:
 http://localhost:3000
 ```
 
-To terminate the process and stop all the containers, just type Ctrl+C in the terminal.
+To terminate the process and stop all the containers, just type **Ctrl+C** in the terminal.
 
 >**If you need to edit any part from the server side, remember that you will always have to stop the containers, build the project and mount the containers once again.**
 
 ## Run without Docker - Localhost
 
-In the client folder, locate the package.json file and edit the line of "proxy"
+In the **_client_** folder, locate the **_package.json_** file and edit the line of "proxy"
 
 ```
 "proxy" : "http://localhost:5000"
@@ -62,8 +62,9 @@ npm run dev
 
 Wait until the service starts. Then proceed to run in the **_client_** terminal the following command:
 ```
-npm build
+npm run build
 ```
+>Remember that running this command will generate a package that can be used to mount it into a Productive server. 
 
 When it finishes, then run the following command:
 ```
@@ -73,5 +74,6 @@ When the service is ready you can access to:
 ```
 http://localhost:3000
 ```
+>**If you need to edit the server side, stop the client, then stop the server and repeat the whole process.**
 
 >**You can see the evidence of the project in the _Evidence_ folder**
