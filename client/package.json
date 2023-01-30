@@ -4,6 +4,10 @@
   "proxy": "http://backend:5000",
   "local_proxy":"http://localhost:5000",
   "private": true,
+  "author": {
+    "name": "Antonio Maldonado",
+    "url": "https://github.com/AntonioMM8506"
+  },
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",

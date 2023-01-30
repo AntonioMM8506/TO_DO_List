@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "author": {
+    "name": "Antonio Maldonado",
+    "url": "https://github.com/AntonioMM8506"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server",
     "dev": "nodemon server"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.1",
